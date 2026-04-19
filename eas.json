@@ -21,6 +21,7 @@
       "distribution": "store",
       "channel": "production",
       "environment": "production",
+      "node": "20.19.4",
       "autoIncrement": true,
       "env": {
         "APP_ENV": "production"

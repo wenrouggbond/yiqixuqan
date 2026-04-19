@@ -86,15 +86,33 @@ function looksLikeSupabaseAnonKey(value) {
 }
 
 function validateExpoConfigEvaluation() {
-  const result = spawnSync('npx', ['expo', 'config', '--json'], {
-    cwd: root,
-    encoding: 'utf8',
-    env: {
-      ...process.env,
-      APP_ENV: 'production',
-      EAS_BUILD_PROFILE: 'production',
-    },
-  });
+  const windowsCommandPath = process.env.ComSpec || `${process.env.SystemRoot || 'C:\\Windows'}\\System32\\cmd.exe`;
+  const result =
+    process.platform === 'win32'
+      ? spawnSync(windowsCommandPath, ['/d', '/s', '/c', 'npx expo config --json'], {
+          cwd: root,
+          encoding: 'utf8',
+          env: {
+            ...process.env,
+            APP_ENV: 'production',
+            EAS_BUILD_PROFILE: 'production',
+          },
+        })
+      : spawnSync('npx', ['expo', 'config', '--json'], {
+          cwd: root,
+          encoding: 'utf8',
+          env: {
+            ...process.env,
+            APP_ENV: 'production',
+            EAS_BUILD_PROFILE: 'production',
+          },
+        });
+
+  if (result.error) {
+    const detail = [result.error.message, result.stderr, result.stdout].filter(Boolean).join('\n').trim();
+    errors.push(`Expo production 配置求值失败。${detail ? `\n${detail}` : ''}`);
+    return;
+  }
 
   if (result.status !== 0) {
     const detail = [result.stderr, result.stdout].filter(Boolean).join('\n').trim();
