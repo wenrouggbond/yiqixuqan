@@ -262,20 +262,7 @@ export function createInitialSharedState(): SharedState {
           { id: createId('todo'), text: '确认今晚几点一起吃饭', done: false, assignee: '共同' },
           { id: createId('todo'), text: '顺路买点水果', done: false, assignee: '我' },
         ],
-        messages: [
-          {
-            id: createId('message'),
-            author: '她',
-            content: '今天想吃热乎一点的，最好带点汤。',
-            createdAt: new Date(now - 1000 * 60 * 90).toISOString(),
-          },
-          {
-            id: createId('message'),
-            author: '我',
-            content: '可以，晚点让转盘帮我们二选一。',
-            createdAt: new Date(now - 1000 * 60 * 40).toISOString(),
-          },
-        ],
+        messages: [],
         orders: [
           {
             id: createId('order'),
@@ -352,21 +339,6 @@ export function toggleTodoInDay(day: DayRecord, todoId: string) {
   };
 }
 
-export function addMessageToDay(day: DayRecord, author: Person, content: string) {
-  return {
-    ...day,
-    messages: [
-      {
-        id: createId('message'),
-        author,
-        content,
-        createdAt: new Date().toISOString(),
-      },
-      ...day.messages,
-    ],
-  };
-}
-
 export function addOrderToDay(day: DayRecord, menuItemId: string, orderedBy: Person) {
   return {
     ...day,
@@ -403,7 +375,7 @@ export function getMarkedDates(days: Record<string, DayRecord>, selectedDate: st
   const markedDates: MarkedDates = {};
 
   Object.entries(days).forEach(([dateKey, day]) => {
-    if (day.todos.length > 0 || day.messages.length > 0 || day.orders.length > 0) {
+    if (day.todos.length > 0 || day.orders.length > 0) {
       markedDates[dateKey] = { marked: true, dotColor: '#c95f35' };
     }
   });
@@ -537,19 +509,19 @@ function normalizeDayRecord(raw: unknown): DayRecord | null {
 
   const day = raw as Partial<DayRecord>;
 
-  if (!Array.isArray(day.todos) || !Array.isArray(day.messages) || !Array.isArray(day.orders)) {
+  if (!Array.isArray(day.todos) || !Array.isArray(day.orders)) {
+    return null;
+  }
+
+  if (day.messages !== undefined && !Array.isArray(day.messages)) {
     return null;
   }
 
   const todos = day.todos.map(normalizeTodoItem);
-  const messages = day.messages.map(normalizeMessageItem);
+  const messages = (day.messages ?? []).map(normalizeMessageItem);
   const orders = day.orders.map(normalizeOrderItem);
 
-  if (
-    todos.some((item) => item === null) ||
-    messages.some((item) => item === null) ||
-    orders.some((item) => item === null)
-  ) {
+  if (todos.some((item) => item === null) || messages.some((item) => item === null) || orders.some((item) => item === null)) {
     return null;
   }
 

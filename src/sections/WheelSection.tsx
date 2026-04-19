@@ -43,7 +43,7 @@ export function WheelSection({
         </Text>
         {latestWheelPick ? (
           <Pressable style={styles.secondaryButtonWide} onPress={() => onConfirmPick(latestWheelPick.id)}>
-            <Text style={styles.secondaryButtonText}>就吃这个，直接点单</Text>
+            <Text style={styles.secondaryButtonText}>就吃这个，记下这次选择</Text>
           </Pressable>
         ) : null}
       </View>

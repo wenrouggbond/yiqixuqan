@@ -15,7 +15,7 @@ type Props = {
 
 export function CalendarSection({ selectedDate, markedDates, currentDay, onSelectDate }: Props) {
   return (
-    <SectionCard title="实时日历" subtitle="点哪一天，就看哪一天的待办、留言和点菜记录。">
+    <SectionCard title="实时日历" subtitle="点哪一天，就看哪一天的待办、菜单记录和用餐记录。">
       <Calendar
         current={selectedDate}
         onDayPress={(day: DateData) => onSelectDate(day.dateString)}
@@ -41,12 +41,8 @@ export function CalendarSection({ selectedDate, markedDates, currentDay, onSelec
           <Text style={styles.summaryBadgeLabel}>待办</Text>
         </View>
         <View style={styles.summaryBadge}>
-          <Text style={styles.summaryBadgeValue}>{currentDay.messages.length}</Text>
-          <Text style={styles.summaryBadgeLabel}>留言</Text>
-        </View>
-        <View style={styles.summaryBadge}>
           <Text style={styles.summaryBadgeValue}>{currentDay.orders.length}</Text>
-          <Text style={styles.summaryBadgeLabel}>点单</Text>
+          <Text style={styles.summaryBadgeLabel}>记录</Text>
         </View>
       </View>
     </SectionCard>

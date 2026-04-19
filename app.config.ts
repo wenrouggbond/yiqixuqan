@@ -1,9 +1,11 @@
 import type { ExpoConfig } from 'expo/config';
 
+const { parseProjectEnv } = require('@expo/env');
+const envFileValues = parseProjectEnv(process.cwd(), { mode: 'production', silent: true }).env;
 const PLACEHOLDER_TOKENS = ['example.com', 'support@example.com', 'yourbrand', 'com.example'];
 
 function getEnvValue(key: string) {
-  return process.env[key]?.trim() ?? '';
+  return (process.env[key] ?? envFileValues[key] ?? '').trim();
 }
 
 function isPlaceholderValue(value: string) {
@@ -32,7 +34,7 @@ const iosBundleId = getConfigValue('EXPO_PUBLIC_IOS_BUNDLE_ID', 'com.example.cou
 const androidPackage = getConfigValue('EXPO_PUBLIC_ANDROID_PACKAGE', 'com.example.couplemealapp', true);
 const supportEmail = getConfigValue('EXPO_PUBLIC_SUPPORT_EMAIL', 'support@example.com', true);
 const privacyPolicyUrl = getConfigValue('EXPO_PUBLIC_PRIVACY_POLICY_URL', 'https://example.com/privacy', true);
-const easProjectId = getConfigValue('EXPO_PUBLIC_EAS_PROJECT_ID', '', true);
+const easProjectId = '09d5d3f1-00bd-44c8-b4b0-a55565dbea22';
 
 const config: ExpoConfig = {
   name: appName,

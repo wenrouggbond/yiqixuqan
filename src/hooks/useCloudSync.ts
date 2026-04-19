@@ -582,7 +582,7 @@ export function useCloudSync({
       clearReconnectTimer(reconnectTimerRef);
       setSyncTone('idle');
       setSyncTitle('仅本机模式');
-      setSyncDetail('还没配置 Supabase 环境变量。现在装到两台手机后，数据不会自动互通。');
+      setSyncDetail('当前版本未启用云同步，数据会保存在本机。');
       setManualSyncReadyRoom('');
       setHasSyncConflict(false);
       lastRemoteUpdatedAtRef.current = null;
@@ -594,7 +594,7 @@ export function useCloudSync({
       clearReconnectTimer(reconnectTimerRef);
       setSyncTone('idle');
       setSyncTitle('待连接房间');
-      setSyncDetail('两台手机保存同一个房间码和配对口令后，才会共享菜单、留言、待办和点菜记录。');
+      setSyncDetail('两台手机保存同一组房间码与配对口令后，才会共享待办、菜单、用餐记录和转盘结果。');
       setManualSyncReadyRoom('');
       setHasSyncConflict(false);
       lastRemoteUpdatedAtRef.current = null;
@@ -617,7 +617,7 @@ export function useCloudSync({
 
     setSyncTone('idle');
     setSyncTitle(`正在连接房间 ${roomCode}`);
-    setSyncDetail('首次连接会自动匿名登录 Supabase，并拉取最新共享数据。');
+    setSyncDetail('首次连接会自动完成设备登录，并拉取最新共享数据。');
 
     void (async () => {
       try {
@@ -856,7 +856,7 @@ export function useCloudSync({
         if (!conflictRoomRef.current[roomCode]) {
           setSyncTone('live');
           setSyncTitle(`已连接房间 ${roomCode}`);
-          setSyncDetail('两台手机使用同一个房间码后，会自动共享最新内容。');
+          setSyncDetail('两台手机保存同一组房间码与配对口令后，会自动共享最新内容。');
         }
       } catch (error) {
         if (!active) {
@@ -917,7 +917,7 @@ export function useCloudSync({
       markRoomReady(roomCode, roomInitStatusRef, setLocalSettings, setManualSyncReadyRoom);
       setSyncTone('live');
       setSyncTitle(`已连接房间 ${roomCode}`);
-      setSyncDetail('两台手机使用同一个房间码后，会自动共享最新内容。');
+      setSyncDetail('两台手机保存同一组房间码与配对口令后，会自动共享最新内容。');
       return;
     }
 

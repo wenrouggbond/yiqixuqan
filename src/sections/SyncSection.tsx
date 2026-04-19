@@ -44,7 +44,7 @@ export function SyncSection({
   onUseLocal,
 }: Props) {
   return (
-    <SectionCard title="双人同步" subtitle="这是上架前最关键的一步：让你和她看到的是同一份数据。">
+    <SectionCard title="双人同步" subtitle="把你们的待办、菜单、用餐记录和转盘结果保持一致。">
       <View style={[styles.statusBanner, statusStyle]}>
         <Text style={styles.statusTitle}>{syncTitle}</Text>
         <Text style={styles.statusBody}>{syncDetail}</Text>
@@ -118,10 +118,10 @@ export function SyncSection({
       </View>
 
       <Text style={styles.helperText}>
-        两台手机安装后，填入同一个房间码和配对口令，才会共享待办、留言、菜单、点菜和转盘结果。
+        两台手机保存同一组房间码与配对口令后，才会共享待办、菜单、用餐记录和转盘结果。
       </Text>
       <Text style={styles.helperText}>
-        如果你还没配置 Supabase，先看文档里的 `.env.example` 和 `supabase/schema.sql`。
+        如果当前版本未启用云同步，本地记录仍然可以正常使用。
       </Text>
     </SectionCard>
   );

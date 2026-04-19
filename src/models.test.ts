@@ -120,6 +120,13 @@ describe('models', () => {
     expect(restored?.local.lastSyncedSnapshot).toBeNull();
   });
 
+  test('starts with no default messages in the initial shared state', () => {
+    const shared = createInitialSharedState();
+    const today = Object.keys(shared.days)[0];
+
+    expect(shared.days[today].messages).toEqual([]);
+  });
+
   test('updates shared day immutably', () => {
     const state = createInitialPersistedState().shared;
     const nextState = updateSharedDay(state, '2026-04-20', (day) => addTodoToDay(day, '买酸奶', '共同'));
@@ -313,7 +320,6 @@ describe('models', () => {
         days: {
           '2026-04-17': {
             todos: [{ id: '1', text: 'x', done: false, assignee: '错误' }],
-            messages: [],
             orders: [],
           },
         },
@@ -431,6 +437,7 @@ describe('models', () => {
     expect(normalized?.days['2026-01-01']).toBeDefined();
     expect(normalized?.days['2026-03-01']).toBeDefined();
     expect(normalized?.days['2026-06-29']).toBeDefined();
+    expect(normalized?.days['2026-01-01'].messages).toHaveLength(1);
 
     const malformedDays = {
       ...days,

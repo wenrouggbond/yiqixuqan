@@ -6,7 +6,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   addMenuItemToSharedState,
-  addMessageToDay,
   addOrderToDay,
   addTodoToDay,
   createEmptyDay,
@@ -36,7 +35,6 @@ import { HeroSection } from './src/sections/HeroSection';
 import { SyncSection } from './src/sections/SyncSection';
 import { CalendarSection } from './src/sections/CalendarSection';
 import { TodoSection } from './src/sections/TodoSection';
-import { MessagesSection } from './src/sections/MessagesSection';
 import { MenuSection } from './src/sections/MenuSection';
 import { WheelSection } from './src/sections/WheelSection';
 import { getVisibleWheelPick } from './src/wheel';
@@ -70,7 +68,6 @@ export default function App() {
   const [liveTime, setLiveTime] = useState(new Date());
   const [newTodoText, setNewTodoText] = useState('');
   const [todoAssignee, setTodoAssignee] = useState<TodoAssignee>('共同');
-  const [newMessageText, setNewMessageText] = useState('');
   const [newMenuName, setNewMenuName] = useState('');
   const [newMenuCategory, setNewMenuCategory] = useState('');
   const [newMenuDescription, setNewMenuDescription] = useState('');
@@ -188,17 +185,6 @@ export default function App() {
     updateCurrentDayState((day) => toggleTodoInDay(day, todoId));
   };
 
-  const addMessage = () => {
-    const content = newMessageText.trim();
-    if (!content) {
-      return;
-    }
-
-    void Haptics.selectionAsync();
-    updateCurrentDayState((day) => addMessageToDay(day, localSettings.currentUser, content));
-    setNewMessageText('');
-  };
-
   const addOrder = (menuItemId: string) => {
     void Haptics.selectionAsync();
     updateCurrentDayState((day) => addOrderToDay(day, menuItemId, localSettings.currentUser));
@@ -266,7 +252,7 @@ export default function App() {
 
   const handleSyncNow = async () => {
     if (!cloudConfigured) {
-      Alert.alert('未配置云同步', '先把 Supabase 环境变量配好，才可以让两台手机实时互通。');
+      Alert.alert('未配置云同步', '先完成云同步配置，才可以让两台手机实时互通。');
       return;
     }
 
@@ -309,7 +295,7 @@ export default function App() {
 
   const handleResolveConflict = async (resolution: 'use_remote' | 'use_local') => {
     if (!cloudConfigured) {
-      Alert.alert('未配置云同步', '先把 Supabase 环境变量配好，才可以恢复双端同步。');
+      Alert.alert('未配置云同步', '先完成云同步配置，才可以恢复双端同步。');
       return;
     }
 
@@ -323,7 +309,7 @@ export default function App() {
       }
 
       if (result.status === 'error') {
-        Alert.alert('冲突处理失败', '请稍后重试，并检查网络、房间码和 Supabase 配置。');
+        Alert.alert('冲突处理失败', '请稍后重试，并检查网络、房间码和云同步配置。');
         return;
       }
 
@@ -434,14 +420,6 @@ export default function App() {
             onChangeNewTodoText={setNewTodoText}
             onAddTodo={addTodo}
             onToggleTodo={toggleTodo}
-          />
-
-          <MessagesSection
-            currentUser={localSettings.currentUser}
-            newMessageText={newMessageText}
-            messages={currentDay.messages}
-            onChangeNewMessageText={setNewMessageText}
-            onAddMessage={addMessage}
           />
 
           <MenuSection

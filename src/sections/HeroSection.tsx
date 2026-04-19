@@ -26,10 +26,10 @@ export function HeroSection({
     <LinearGradient colors={['#1f4438', '#2e5a4c', '#446a57']} style={styles.hero}>
       <View style={styles.heroTopRow}>
         <View>
-          <Text style={styles.eyebrow}>双人吃饭上架准备版</Text>
+          <Text style={styles.eyebrow}>双人共享晚饭助手</Text>
           <Text style={styles.heroTitle}>一起选</Text>
           <Text style={styles.heroSubtitle}>
-            现在已经支持本地使用，配好 Supabase 后还可以让两台手机实时同步。
+            一起记录想法、安排分工，轻松决定今天吃什么。
           </Text>
         </View>
         <View style={styles.heroStatus}>
@@ -58,8 +58,8 @@ export function HeroSection({
       <View style={styles.heroFootnote}>
         <Text style={styles.heroFootnoteText}>
           {cloudConfigured
-            ? '已经接入可配置的云同步骨架，你把同一个房间码填到两台手机里就能共用内容。'
-            : '这版仍然可以本地跑，但要真正双人共用，需要先按文档配置 Supabase 环境变量。'}
+            ? '两台设备保存同一组房间码与配对口令后，就能共享待办、菜单、用餐记录和转盘结果。'
+            : '当前版本仅在本机保存内容，你仍然可以正常记录每日安排和选择。'}
         </Text>
       </View>
     </LinearGradient>

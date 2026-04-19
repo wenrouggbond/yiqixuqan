@@ -42,7 +42,7 @@ export function MenuSection({
   onAddOrder,
 }: Props) {
   return (
-    <SectionCard title="菜单与点菜" subtitle="像菜单一样浏览，决定好了就直接点。">
+    <SectionCard title="菜单与选择记录" subtitle="先整理常吃菜单，决定后再记下这次选择。">
       <View style={styles.inputGroup}>
         <TextInput
           value={newMenuName}
@@ -112,18 +112,18 @@ export function MenuSection({
               </View>
             ) : null}
             <Pressable style={styles.secondaryButton} onPress={() => onAddOrder(item.id)}>
-              <Text style={styles.secondaryButtonText}>以“{currentUser}”身份点这道</Text>
+              <Text style={styles.secondaryButtonText}>以“{currentUser}”身份记下这道</Text>
             </Pressable>
           </View>
         ))}
       </View>
 
       <View style={styles.stack}>
-        <Text style={styles.inlineTitle}>今日点单记录</Text>
+        <Text style={styles.inlineTitle}>今日用餐记录</Text>
         {orders.length === 0 ? (
           <View style={styles.emptyCard}>
-            <Text style={styles.emptyTitle}>今天还没有点菜</Text>
-            <Text style={styles.emptyBody}>可以从上面的菜单直接点，也可以让转盘先帮你们选。</Text>
+            <Text style={styles.emptyTitle}>今天还没有记录选择</Text>
+            <Text style={styles.emptyBody}>可以从上面的菜单记下选择，也可以让转盘先帮你们决定。</Text>
           </View>
         ) : (
           orders.map((order) => {
@@ -133,7 +133,7 @@ export function MenuSection({
                 <View>
                   <Text style={styles.orderTitle}>{orderedItem?.name ?? '未知菜品'}</Text>
                   <Text style={styles.orderMeta}>
-                    {order.orderedBy} 点的 · {getShortTime(order.createdAt)}
+                    {order.orderedBy} 记录 · {getShortTime(order.createdAt)}
                   </Text>
                 </View>
                 <Text style={styles.orderCategory}>{orderedItem?.category ?? '自定义'}</Text>
